@@ -1,0 +1,21 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "6c670e6fbc3d3f96330e011a2361fcc4c4b24e68a1459f95b0a413d3a1b29296": {
+      "source": {
+        "path": "MiProyectoCdkStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "310702806895-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-310702806895-us-east-1",
+          "objectKey": "6c670e6fbc3d3f96330e011a2361fcc4c4b24e68a1459f95b0a413d3a1b29296.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::310702806895:role/LabRole",
+          "assumeRoleExternalId": ""
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

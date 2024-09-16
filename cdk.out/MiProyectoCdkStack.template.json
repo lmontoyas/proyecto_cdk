@@ -1,0 +1,199 @@
+{
+ "Parameters": {
+  "InstanceName": {
+   "Type": "String",
+   "Default": "MV Proyecto",
+   "Description": "Nombre de la instancia a crear"
+  },
+  "AMI": {
+   "Type": "String",
+   "Default": "ami-0336f1feb73f96b69",
+   "Description": "ID de AMI"
+  },
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Resources": {
+  "InstanceSecurityGroup896E10BF": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Permitir trafico SSH y HTTP desde cualquier lugar",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Permitir SSH",
+      "FromPort": 22,
+      "IpProtocol": "tcp",
+      "ToPort": 22
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Permitir HTTP",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     }
+    ],
+    "VpcId": "vpc-0518bc1284ba9b57e"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MiProyectoCdkStack/InstanceSecurityGroup/Resource"
+   }
+  },
+  "EC2InstanceInstanceProfile4A6C6689": {
+   "Type": "AWS::IAM::InstanceProfile",
+   "Properties": {
+    "Roles": [
+     "LabRole"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MiProyectoCdkStack/EC2Instance/InstanceProfile"
+   }
+  },
+  "EC2Instance770AAE32": {
+   "Type": "AWS::EC2::Instance",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "BlockDeviceMappings": [
+     {
+      "DeviceName": "/dev/sda1",
+      "Ebs": {
+       "VolumeSize": 20
+      }
+     }
+    ],
+    "IamInstanceProfile": {
+     "Ref": "EC2InstanceInstanceProfile4A6C6689"
+    },
+    "ImageId": {
+     "Ref": "AMI"
+    },
+    "InstanceType": "t2.micro",
+    "KeyName": "vockey",
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "InstanceSecurityGroup896E10BF",
+       "GroupId"
+      ]
+     }
+    ],
+    "SubnetId": "subnet-0ae6157ae32f60183",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": {
+       "Ref": "InstanceName"
+      }
+     }
+    ],
+    "UserData": {
+     "Fn::Base64": "#!/bin/bash\n\n      cd /var/www/html/\n      git clone https://github.com/utec-cc-2024-2-test/websimple.git\n      git clone https://github.com/utec-cc-2024-2-test/webplantilla.git\n      ls -l\n    "
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MiProyectoCdkStack/EC2Instance/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WNTQrCMBCFz9J9OrYRvYALcWVpDyBjOoXpT1KSiUVK7y5BCrp6H+998DSUpyMUGS4hN+2Qj/yEtRE0g7p0tkKPEwl5VVNw0RtSuITHSkbD2pCJnuV99S7Oyf4vbjYIWkNp2XlTjBP8FJV3HY+0JekeZY6SaD/blHUtQR8OL11AeYYi6wNz7qMVngjqb34AbGvAwsQAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "MiProyectoCdkStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "InstanceId": {
+   "Description": "ID de la instancia EC2",
+   "Value": {
+    "Ref": "EC2Instance770AAE32"
+   }
+  },
+  "InstancePublicIP": {
+   "Description": "IP pública de la instancia",
+   "Value": {
+    "Fn::GetAtt": [
+     "EC2Instance770AAE32",
+     "PublicIp"
+    ]
+   }
+  },
+  "websimpleURL": {
+   "Description": "URL de websimple",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "http://",
+      {
+       "Fn::GetAtt": [
+        "EC2Instance770AAE32",
+        "PublicIp"
+       ]
+      },
+      "/websimple"
+     ]
+    ]
+   }
+  },
+  "webplantillaURL": {
+   "Description": "URL de webplantilla",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "http://",
+      {
+       "Fn::GetAtt": [
+        "EC2Instance770AAE32",
+        "PublicIp"
+       ]
+      },
+      "/webplantilla"
+     ]
+    ]
+   }
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

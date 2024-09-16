@@ -1,0 +1,121 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "MiProyectoCdkStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MiProyectoCdkStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MiProyectoCdkStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://310702806895/us-east-1",
+      "properties": {
+        "templateFile": "MiProyectoCdkStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleExternalId": "",
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::310702806895:role/LabRole",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::310702806895:role/LabRole",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-310702806895-us-east-1/6c670e6fbc3d3f96330e011a2361fcc4c4b24e68a1459f95b0a413d3a1b29296.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MiProyectoCdkStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::310702806895:role/LabRole",
+          "assumeRoleExternalId": "",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MiProyectoCdkStack.assets"
+      ],
+      "metadata": {
+        "/MiProyectoCdkStack/InstanceName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceName"
+          }
+        ],
+        "/MiProyectoCdkStack/AMI": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AMI"
+          }
+        ],
+        "/MiProyectoCdkStack/InstanceSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceSecurityGroup896E10BF"
+          }
+        ],
+        "/MiProyectoCdkStack/EC2Instance/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2InstanceInstanceProfile4A6C6689"
+          }
+        ],
+        "/MiProyectoCdkStack/EC2Instance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2Instance770AAE32"
+          }
+        ],
+        "/MiProyectoCdkStack/InstanceId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceId"
+          }
+        ],
+        "/MiProyectoCdkStack/InstancePublicIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstancePublicIP"
+          }
+        ],
+        "/MiProyectoCdkStack/websimpleURL": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "websimpleURL"
+          }
+        ],
+        "/MiProyectoCdkStack/webplantillaURL": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webplantillaURL"
+          }
+        ],
+        "/MiProyectoCdkStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MiProyectoCdkStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MiProyectoCdkStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MiProyectoCdkStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
